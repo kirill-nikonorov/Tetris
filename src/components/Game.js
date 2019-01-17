@@ -1,44 +1,46 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Board} from '../components';
-import {connect} from "react-redux";
-import {pure} from "recompose";
-import {startNewGame, endGame} from "../actions/gameStatus";
-
+import {Board, Menu, ScoreTable, NextFiguresBar, GameTimer} from '../components';
+import {connect} from 'react-redux';
+import {pure} from 'recompose';
+import {
+    CELL_HEIGHT_PX,
+    CELL_WIDTH_PX,
+    HORIZONTAL_CELLS_COUNT,
+    VERTICAL_CELLS_COUNT
+} from '../constants/Game';
+import {checkIsGameOn} from '../utils/helpers/gameStatusOperations';
 
 const AppContainer = styled.div`
-   
-`;
-const Button = styled.button`
-    margin: 10px;
+    height: ${VERTICAL_CELLS_COUNT * CELL_HEIGHT_PX}px;
+    width: ${HORIZONTAL_CELLS_COUNT * CELL_WIDTH_PX}px;
+    position: relative;
 `;
 
 class Game extends React.Component {
+    state = {isMenuVisible: true};
+
     render() {
-        const {startNewGame, endGame} = this.props;
+        const {startNewGame, isGameIsOn} = this.props;
+        const {isMenuVisible} = this.state;
 
         return (
             <AppContainer>
-                {startNewGame()}
-                <Board/>
-                <Button autoFocus onClick={() => {
-                    startNewGame();
-                }}>Включить
-                </Button>
-                <Button onClick={() => {
-                    endGame();
-                }}>Отключить
-                </Button>
+                <Menu isVisible={isMenuVisible} />
+                <Board />
+                <NextFiguresBar />
+                <ScoreTable />
+                <GameTimer />
             </AppContainer>
         );
     }
 }
 
-const mapStateToProps = () => {
-    return {}
+const mapStateToProps = state => {
+    const gameStatus = state.get('gameStatus');
+    const isGameIsOn = checkIsGameOn(gameStatus);
+    return {isGameIsOn};
 };
-export default connect(
-    mapStateToProps,
-    { startNewGame, endGame}
-)(pure(Game));
 
+const mapDispatchToProps = dispatch => {};
+export default connect(mapStateToProps)(pure(Game));

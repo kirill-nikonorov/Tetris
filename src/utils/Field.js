@@ -8,8 +8,7 @@ export const drawFigureOnField = (field, figure, y, x) => {
                 const resultCell = x + cellIndex;
                 resultFigure.setIn([resultRow, resultCell], cell);
             }
-        })
+        });
     });
     return resultFigure.asImmutable();
 };
-
