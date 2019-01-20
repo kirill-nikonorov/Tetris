@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import {CELL_HEIGHT_PX, CELL_WIDTH_PX} from '../constants/Game';
+import {CELL_HEIGHT_PX, CELL_WIDTH_PX} from '../../constants/Game';
 
 import {pure} from 'recompose';
-import Cell from '../components/Cell';
+import Cell from './Cell';
 
 const CellsGroupContainer = styled.div``;
 

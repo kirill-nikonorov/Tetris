@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
-import {AsideBlock} from './styles/AsideBlocks';
-import {checkIsGameOn, checkIsTurnedOff} from '../utils/helpers/gameStatusOperations';
-import {CELL_WIDTH_PX, GAME_TIME, HORIZONTAL_CELLS_COUNT} from '../constants/Game';
+import {AsideBlock} from '../styles/AsideBlocks';
+import {checkIsGameOn, checkIsTurnedOff} from '../../utils/gameStatusOperations';
+import {CELL_WIDTH_PX, GAME_TIME, HORIZONTAL_CELLS_COUNT} from '../../constants/Game';
 import styled from 'styled-components';
-import {endGame} from '../actions';
-import {reduceGameTimeOnSec} from '../actions/gameTime';
+import {endGame} from '../../actions/index';
+import {reduceGameTimeOnSec} from '../../actions/gameTime';
 
 const height = 20;
 const width = 100;

@@ -2,8 +2,8 @@ import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 import {pure} from 'recompose';
-import {AsideBlock} from './styles/AsideBlocks';
-import {checkIsTurnedOff} from '../utils/helpers/gameStatusOperations';
+import {AsideBlock} from '../styles/AsideBlocks';
+import {checkIsTurnedOff} from '../../utils/gameStatusOperations';
 
 const Score = styled.div`
     font-size: 25px;

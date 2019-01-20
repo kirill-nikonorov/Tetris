@@ -9,7 +9,7 @@ import {
     HORIZONTAL_CELLS_COUNT,
     VERTICAL_CELLS_COUNT
 } from '../constants/Game';
-import {checkIsGameOn} from '../utils/helpers/gameStatusOperations';
+import {checkIsGameOn} from '../utils/gameStatusOperations';
 
 const AppContainer = styled.div`
     height: ${VERTICAL_CELLS_COUNT * CELL_HEIGHT_PX}px;

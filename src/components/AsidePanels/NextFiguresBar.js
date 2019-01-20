@@ -3,12 +3,12 @@ import {connect} from 'react-redux';
 import styled from 'styled-components';
 import {pure} from 'recompose';
 
-import {moveFigure, toggleGameOn, togglePause} from '../actions';
-import {FigureBox} from '../components';
-import {FIGURES} from '../constants/Figures';
-import {CELL_WIDTH_PX, CELL_HEIGHT_PX, VERTICAL_CELLS_COUNT} from '../constants/Game';
-import {checkIsTurnedOff} from '../utils/helpers/gameStatusOperations';
-import {AsideBlock} from './styles/AsideBlocks';
+import {moveFigure, toggleGameOn, togglePause} from '../../actions/index';
+import {FigureBox} from '../index';
+import {FIGURES} from '../../constants/Figures';
+import {CELL_WIDTH_PX, CELL_HEIGHT_PX, VERTICAL_CELLS_COUNT} from '../../constants/Game';
+import {checkIsTurnedOff} from '../../utils/gameStatusOperations';
+import {AsideBlock} from '../styles/AsideBlocks';
 
 const maxCellsCountsAmongFigures = FIGURES.reduce(
     (maxCellsCounts, figure) => {

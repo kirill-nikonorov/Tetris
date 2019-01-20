@@ -1,21 +1,21 @@
 import {updateGameState} from '../lib/reduxActions/actions/game';
 import {DIRECTION, GAME_STATUSES, HORIZONTAL_CELLS_COUNT} from '../constants/Game';
 import {fromJS, List} from 'immutable';
-import {drawFigureOnField} from '../utils/Field';
+import {drawFigureOnField} from '../utils/field';
 import {
     findTheLowestCompatibleFigureYCoordinate,
     checkIsFigureCompatibleWithField,
     makeFiguresListStep,
-    findXCoordinateOfCentredFigure
-} from '../utils/helpers/figureOperations';
+    findXCoordinateOfFieldCentredFigure
+} from '../utils/figureOperations';
 import {
     checkIsWithinTopBound,
     checkIsWithinBottomBound,
     checkIsWithinRightBound,
     checkIsWithinLeftBound,
     checkIsWithinAllBounds
-} from '../utils/helpers/boundComplianceCheckers';
-import {checkIsGameOn} from '../utils/helpers/gameStatusOperations';
+} from '../utils/boundComplianceCheckers';
+import {checkIsGameOn} from '../utils/gameStatusOperations';
 
 export const moveFigure = direction => (dispatch, getState) => {
     const state = getState();
@@ -56,7 +56,6 @@ export const moveFigure = direction => (dispatch, getState) => {
 
             break;
         }
-
         case DIRECTION.LEFT: {
             const newX = x - 1;
 
@@ -77,7 +76,6 @@ export const moveFigure = direction => (dispatch, getState) => {
 
             break;
         }
-
         case DIRECTION.UP: {
             const newY = y - 1;
             const isNextStepCompatibleWithField = checkIsFigureCompatibleWithField(
@@ -110,7 +108,7 @@ export const moveFigure = direction => (dispatch, getState) => {
                     boardState: {figureCoordinate: {y: newY}}
                 };
             } else {
-                newState = createNextFigureCycleState(
+                newState = createNextFigurePeriodState(
                     nextFiguresList,
                     field,
                     figure,
@@ -124,7 +122,7 @@ export const moveFigure = direction => (dispatch, getState) => {
         case DIRECTION.TO_BOTTOM: {
             const shadowY = boardState.get('shadowY');
 
-            newState = createNextFigureCycleState(
+            newState = createNextFigurePeriodState(
                 nextFiguresList,
                 field,
                 figure,
@@ -158,14 +156,14 @@ export const moveFigure = direction => (dispatch, getState) => {
     if (newState) dispatch(updateGameState(newState));
 };
 
-const createNextFigureCycleState = (nextFiguresList, field, figure, x, y, gameStatistic) => {
+const createNextFigurePeriodState = (nextFiguresList, field, figure, x, y, gameStatistic) => {
     const [newField, cleanedRowsCount] = cleanFieldFromFilledRows(
         drawFigureOnField(field, figure, y, x)
     );
 
     const [nextFigure, newNextFiguresList] = makeFiguresListStep(nextFiguresList);
 
-    const newFigureX = findXCoordinateOfCentredFigure(nextFigure);
+    const newFigureX = findXCoordinateOfFieldCentredFigure(nextFigure);
     const gameScore = gameStatistic.get('gameScore') || 0;
     const newGameScore = gameScore + cleanedRowsCount;
 

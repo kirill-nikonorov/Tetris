@@ -1,4 +1,4 @@
-import {GAME_STATUSES} from '../../constants/Game';
+import {GAME_STATUSES} from '../constants/Game';
 
 const {GAME_IS_ON, GAME_IS_ON_PAUSE, GAME_IS_OVER, GAME_IS_TURNED_OFF} = GAME_STATUSES;
 

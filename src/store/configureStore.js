@@ -4,7 +4,7 @@ import persistState from 'redux-localstorage';
 
 import thunk from 'redux-thunk';
 import DevTools from '../containers/DevTools';
-import {BLANK_FIELD} from '../utils/Matrix';
+import {BLANK_FIELD} from '../utils/matrix';
 import {fromJS} from 'immutable';
 import {GAME_STATUSES} from '../constants/Game';
 import {PROTOTYPE_OF_PERSISTING_PART_OF_STORE} from '../constants/StoreStructure';

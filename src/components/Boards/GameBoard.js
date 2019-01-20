@@ -13,12 +13,12 @@ import {
     HORIZONTAL_CELLS_COUNT,
     CELL_HEIGHT_PX,
     VERTICAL_CELLS_COUNT
-} from '../constants/Game';
-import CellsGroup from '../components/CellsGroup';
-import {moveFigure, toggleGameOn, togglePause} from '../actions';
+} from '../../constants/Game';
+import CellsGroup from '../FigureScope/CellsGroup';
+import {moveFigure, toggleGameOn, togglePause} from '../../actions/index';
 
-import {BACKGROUND} from '../constants/Figures';
-import {checkIsGameOn} from '../utils/helpers/gameStatusOperations';
+import {BACKGROUND} from '../../constants/Figures';
+import {checkIsGameOn} from '../../utils/gameStatusOperations';
 
 const renderedBackGround = BACKGROUND.toList().map((backgroundPart, i) => {
     return <CellsGroup cells={backgroundPart} key={i} name={'backgroundPart'} />;

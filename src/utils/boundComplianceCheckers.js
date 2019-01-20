@@ -1,4 +1,4 @@
-import {HORIZONTAL_MAX_INDEX, VERTICAL_MAX_INDEX} from '../../constants/Game';
+import {HORIZONTAL_MAX_INDEX, VERTICAL_MAX_INDEX} from '../constants/Game';
 
 export const checkIsWithinBound = (smallIndex, bigIndex) => {
     return smallIndex <= bigIndex;
