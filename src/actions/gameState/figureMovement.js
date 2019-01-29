@@ -1,31 +1,32 @@
-import {updateGameState} from '../lib/reduxActions/actions/game';
-import {DIRECTION, GAME_STATUSES, HORIZONTAL_CELLS_COUNT} from '../constants/Game';
+import {updateGameState} from '../../lib/reduxActions/actions/game';
+import {DIRECTION, GAME_STATUSES, HORIZONTAL_CELLS_COUNT} from '../../constants/Game';
 import {fromJS, List} from 'immutable';
-import {drawFigureOnField} from '../utils/field';
-import {
-    findTheLowestCompatibleFigureYCoordinate,
-    checkIsFigureCompatibleWithField,
-    makeFiguresListStep,
-    findXCoordinateOfFieldCentredFigure
-} from '../utils/figureOperations';
+import {drawFigureOnField} from '../../utils/field/drawFigureOnField';
+import {makeFiguresListStep, findXCoordinateOfFieldCentredFigure} from '../../utils/figure';
 import {
     checkIsWithinTopBound,
     checkIsWithinBottomBound,
     checkIsWithinRightBound,
     checkIsWithinLeftBound,
     checkIsWithinAllBounds
-} from '../utils/boundComplianceCheckers';
-import {checkIsGameOn} from '../utils/gameStatusOperations';
+} from '../../utils/boundComplianceCheck';
+import {checkIsGameOn} from '../../utils/gameStatus';
+import {checkIsFigureCompatibleWithField} from '../../utils/field/checkIsFigureCompatibleWithField';
+import {findTheLowestCompatibleFigureYCoordinate} from '../../utils/field/findTheLowestCompatibleFigureYCoordinate';
 
 export const moveFigure = direction => (dispatch, getState) => {
     const state = getState();
-    const boardState = getState().get('boardState');
-    const gameStatus = state.get('gameStatus');
+
+    const gameState = state.get('gameState');
+    const boardState = gameState.get('boardState');
+    const gameStatus = gameState.get('gameStatus');
     const isGameIsOn = checkIsGameOn(gameStatus);
 
     if (!isGameIsOn) return;
+    const customFigures = state.get('customFiguresData').get('customFigures');
+
     const field = boardState.get('field');
-    const figure = boardState.get('currentFigure') || fromJS([[]]);
+    const currentFigure = boardState.get('currentFigure') || fromJS([[]]);
     const figureCoordinate = boardState.get('figureCoordinate') || fromJS({});
     const y = figureCoordinate.get('y') || 0;
     const x = figureCoordinate.get('x') || 0;
@@ -33,7 +34,7 @@ export const moveFigure = direction => (dispatch, getState) => {
 
     let newState;
 
-    const gameStatistic = state.get('gameStatistic') || {};
+    const gameStatistic = gameState.get('gameStatistic') || {};
 
     switch (direction) {
         case DIRECTION.RIGHT: {
@@ -41,7 +42,7 @@ export const moveFigure = direction => (dispatch, getState) => {
 
             const isNextStepCompatibleWithField = checkIsFigureCompatibleWithField(
                 field,
-                figure,
+                currentFigure,
                 newX,
                 y,
                 cellX => checkIsWithinRightBound(cellX)
@@ -50,7 +51,7 @@ export const moveFigure = direction => (dispatch, getState) => {
             newState = {
                 boardState: {
                     figureCoordinate: {x: newX},
-                    shadowY: findTheLowestCompatibleFigureYCoordinate(field, figure, newX, y)
+                    shadowY: findTheLowestCompatibleFigureYCoordinate(field, currentFigure, newX, y)
                 }
             };
 
@@ -61,7 +62,7 @@ export const moveFigure = direction => (dispatch, getState) => {
 
             const isNextStepCompatibleWithField = checkIsFigureCompatibleWithField(
                 field,
-                figure,
+                currentFigure,
                 newX,
                 y,
                 cellX => checkIsWithinLeftBound(cellX)
@@ -70,7 +71,7 @@ export const moveFigure = direction => (dispatch, getState) => {
             newState = {
                 boardState: {
                     figureCoordinate: {x: newX},
-                    shadowY: findTheLowestCompatibleFigureYCoordinate(field, figure, newX, y)
+                    shadowY: findTheLowestCompatibleFigureYCoordinate(field, currentFigure, newX, y)
                 }
             };
 
@@ -80,7 +81,7 @@ export const moveFigure = direction => (dispatch, getState) => {
             const newY = y - 1;
             const isNextStepCompatibleWithField = checkIsFigureCompatibleWithField(
                 field,
-                figure,
+                currentFigure,
                 x,
                 newY,
                 (cellX, cellY) => checkIsWithinTopBound(cellY)
@@ -98,7 +99,7 @@ export const moveFigure = direction => (dispatch, getState) => {
 
             const isNextStepCompatibleWithField = checkIsFigureCompatibleWithField(
                 field,
-                figure,
+                currentFigure,
                 x,
                 newY,
                 (cellX, cellY) => checkIsWithinBottomBound(cellY)
@@ -111,10 +112,11 @@ export const moveFigure = direction => (dispatch, getState) => {
                 newState = createNextFigurePeriodState(
                     nextFiguresList,
                     field,
-                    figure,
+                    currentFigure,
                     x,
                     y,
-                    gameStatistic
+                    gameStatistic,
+                    customFigures
                 );
             }
             break;
@@ -125,15 +127,16 @@ export const moveFigure = direction => (dispatch, getState) => {
             newState = createNextFigurePeriodState(
                 nextFiguresList,
                 field,
-                figure,
+                currentFigure,
                 x,
                 shadowY,
-                gameStatistic
+                gameStatistic,
+                customFigures
             );
             break;
         }
         case DIRECTION.AROUND_ITS_AXIS: {
-            const routedFigure = rotateFigure(figure);
+            const routedFigure = rotateFigure(currentFigure);
 
             const isNextStepCompatibleWithField = checkIsFigureCompatibleWithField(
                 field,
@@ -156,12 +159,18 @@ export const moveFigure = direction => (dispatch, getState) => {
     if (newState) dispatch(updateGameState(newState));
 };
 
-const createNextFigurePeriodState = (nextFiguresList, field, figure, x, y, gameStatistic) => {
+const createNextFigurePeriodState = (nextFiguresList,
+                                     field,
+                                     figure,
+                                     x,
+                                     y,
+                                     gameStatistic,
+                                     customFigures) => {
     const [newField, cleanedRowsCount] = cleanFieldFromFilledRows(
-        drawFigureOnField(field, figure, y, x)
+        drawFigureOnField(field, figure, x, y)
     );
 
-    const [nextFigure, newNextFiguresList] = makeFiguresListStep(nextFiguresList);
+    const [nextFigure, newNextFiguresList] = makeFiguresListStep(nextFiguresList, customFigures);
 
     const newFigureX = findXCoordinateOfFieldCentredFigure(nextFigure);
     const gameScore = gameStatistic.get('gameScore') || 0;
@@ -201,18 +210,17 @@ const cleanFieldFromFilledRows = field => {
     if (deletedCount) {
         let emptyArrays = [];
         for (let i = 0; i < deletedCount; i++) {
-            emptyArrays.push(List(new Array(HORIZONTAL_CELLS_COUNT).fill(0)));
+            emptyArrays.push(List(new Array(HORIZONTAL_CELLS_COUNT).fill(undefined)));
         }
         return [fieldWithoutFilledRows.unshift(...emptyArrays), deletedCount];
     } else return [fieldWithoutFilledRows, deletedCount];
 };
 
 const rotateFigure = figure => {
-    const rotateFigure = figure.slice();
-    return rotateFigure.withMutations(rotateFigure =>
+    return figure.slice().withMutations(rotatedFigure =>
         figure.forEach((row, rowIndex) => {
             row.forEach((cell, cellIndex, arr) => {
-                rotateFigure.setIn([cellIndex, arr.size - 1 - rowIndex], cell);
+                rotatedFigure.setIn([cellIndex, arr.size - 1 - rowIndex], cell);
             });
         })
     );

@@ -1,17 +1,10 @@
 import {pure} from 'recompose';
-import {BigSymbols} from './styles/stringStylers';
 import React from 'react';
-import {TextCentralizer} from './styles/layoutFormatters';
+import {BigSymbols, TextCentralizer} from './style';
 
 const GameOverStatistic = props => {
-    const {gameRecord = 0, gameScore} = props;
+    const {gameRecord = 0, gameScore = 0} = props;
     const difference = gameRecord - gameScore;
-
-    console.group();
-    console.log('gameRecord = ', gameRecord);
-    console.log('gameScore = ', gameScore);
-    console.log('difference = ', difference);
-    console.groupEnd();
 
     return (
         <TextCentralizer>

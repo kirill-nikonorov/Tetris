@@ -1,44 +1,22 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import styled from 'styled-components';
 import camelCase from 'camelcase';
 import createRepeat from '@avinlab/repeat';
 import {pure} from 'recompose';
-
-import {
-    DIRECTION,
-    STEP_TIME,
-    KEY_REPEAT_TIME,
-    GAME_STATUSES,
-    HORIZONTAL_CELLS_COUNT,
-    CELL_HEIGHT_PX,
-    VERTICAL_CELLS_COUNT
-} from '../../constants/Game';
-import CellsGroup from '../FigureScope/CellsGroup';
-import {moveFigure, toggleGameOn, togglePause} from '../../actions/index';
-
+import {DIRECTION, STEP_TIME, KEY_REPEAT_TIME} from '../../constants/Game';
+import Figure from '../Figure/Figure';
+import {moveFigure, toggleGameOn, togglePause} from '../../actions/gameState/index';
 import {BACKGROUND} from '../../constants/Figures';
-import {checkIsGameOn} from '../../utils/gameStatusOperations';
-
-const renderedBackGround = BACKGROUND.toList().map((backgroundPart, i) => {
-    return <CellsGroup cells={backgroundPart} key={i} name={'backgroundPart'} />;
-});
+import {checkIsGameOn} from '../../utils/gameStatus';
+import {BoardContainer} from './style';
 
 const {DOWN, UP, LEFT, RIGHT, AROUND_ITS_AXIS, TO_BOTTOM} = DIRECTION;
-const {GAME_IS_ON} = GAME_STATUSES;
 
-const BoardContainer = styled.div`
-    height: 100%;
-    width: 100%;
-
-    position: relative;
-    background: #26323b;
-`;
 const generateRepeaterName = direction => {
     return camelCase(`${direction}_Movement`);
 };
 
-class Board extends React.Component {
+class GameBoard extends React.Component {
     constructor(props) {
         super(props);
         const {isGameOn} = props;
@@ -169,22 +147,21 @@ class Board extends React.Component {
 
         return (
             <BoardContainer>
-                {renderedBackGround}
+                <Figure cells={BACKGROUND} />
 
-                <CellsGroup cells={field} name={'--field'} />
+                <Figure cells={field} />
 
                 {currentFigure && (
-                    <CellsGroup
+                    <Figure
                         cells={currentFigure}
                         x={x}
                         y={shadowY}
                         shadow={true}
-                        name={'.....................shadow'}
                     />
                 )}
 
                 {currentFigure && (
-                    <CellsGroup cells={currentFigure} x={x} y={y} name={'-----------figure'} />
+                    <Figure cells={currentFigure} x={x} y={y}  />
                 )}
             </BoardContainer>
         );
@@ -192,14 +169,16 @@ class Board extends React.Component {
 }
 
 const mapStateToProps = state => {
-    const boardState = state.get('boardState');
+    const gameState = state.get('gameState');
+
+    const boardState = gameState.get('boardState');
     const field = boardState.get('field');
     const currentFigure = boardState.get('currentFigure');
     const figureCoordinate = boardState.get('figureCoordinate');
     const y = figureCoordinate.get('y') || 0;
     const x = figureCoordinate.get('x') || 0;
     const shadowY = boardState.get('shadowY');
-    const gameStatus = state.get('gameStatus');
+    const gameStatus = gameState.get('gameStatus');
     const isGameOn = checkIsGameOn(gameStatus);
 
     return {isGameOn, field, y, x, currentFigure, shadowY};
@@ -208,4 +187,4 @@ const mapStateToProps = state => {
 export default connect(
     mapStateToProps,
     {moveFigure, toggleGameOn, togglePause}
-)(pure(Board));
+)(pure(GameBoard));

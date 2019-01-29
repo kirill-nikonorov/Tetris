@@ -1,8 +1,10 @@
-import {updateGameState} from '../lib/reduxActions/actions/game';
-import {GAME_STATUSES} from '../constants/Game';
+import {updateGameState} from '../../lib/reduxActions/actions/game';
+import {GAME_STATUSES} from '../../constants/Game';
 
 export const reduceGameTimeOnSec = () => (dispatch, getState) => {
-    const gameTime = getState().get('gameTime');
+    const gameTime = getState()
+        .get('gameState')
+        .get('gameTime');
 
     const newState = {gameTime: gameTime - 1};
 

@@ -6,7 +6,7 @@ let path = require("path");
 
 module.exports = merge(common, {
     entry: {
-        client: ['./src/index.js']
+        client: [ './src/index.js']
     },
     output: {
         filename: 'static/[name].bundle.js',
@@ -22,5 +22,4 @@ module.exports = merge(common, {
             'process.env.NODE_ENV': JSON.stringify('production')
         })
     ]
-
 });

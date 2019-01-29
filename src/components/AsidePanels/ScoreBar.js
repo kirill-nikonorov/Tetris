@@ -2,33 +2,34 @@ import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 import {pure} from 'recompose';
-import {AsideBlock} from '../styles/AsideBlocks';
-import {checkIsTurnedOff} from '../../utils/gameStatusOperations';
+import {checkIsTurnedOff} from '../../utils/gameStatus';
+import {RightAsideBlock} from './style/index';
 
 const Score = styled.div`
     font-size: 25px;
 `;
 
-const style = {height: '65px', width: '50px', top: 0, right: '-55px'};
+const style = {height: '65px', width: '50px'};
 
 class ScoreTable extends React.Component {
     render() {
         const {gameScore = 0, isGameTurnedOff} = this.props;
 
         return (
-            <AsideBlock style={style} isVisible={!isGameTurnedOff}>
+            <RightAsideBlock style={style} isVisible={!isGameTurnedOff}>
                 score :<Score>{gameScore}</Score>
-            </AsideBlock>
+            </RightAsideBlock>
         );
     }
 }
 
 const mapStateToProps = state => {
-    const gameStatus = state.get('gameStatus');
+    const gameState = state.get('gameState');
+
+    const gameStatus = gameState.get('gameStatus');
     const isGameTurnedOff = checkIsTurnedOff(gameStatus);
 
-    const gameStatistic = state.get('gameStatistic');
-    const gameScore = gameStatistic.get('gameScore');
+    const gameScore = gameState.getIn(['gameStatistic', 'gameScore']);
 
     return {gameScore, isGameTurnedOff};
 };

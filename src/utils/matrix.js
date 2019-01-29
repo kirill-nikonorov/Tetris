@@ -5,30 +5,39 @@ import {fromJS} from 'immutable';
 const generateBlankField = (horizontalCellsCount, verticalCellsCount) => {
     const field = new Array(verticalCellsCount)
         .fill([])
-        .map(() => new Array(horizontalCellsCount).fill(0));
+        .map(() => new Array(horizontalCellsCount).fill(undefined));
     return fromJS(field);
 };
-const generateBackgroundCells = (horizontalCellsCount, verticalCellsCount) => {
-    const backgroundEvenPart = [];
-    const backgroundOddPart = [];
 
-    for (let rowIndex = 0; rowIndex < verticalCellsCount; rowIndex++) {
-        const evenRow = [];
-        const oddRow = [];
-        for (let cellIndex = 0; cellIndex < horizontalCellsCount; cellIndex++) {
-            const isEven = !!((rowIndex + cellIndex) % 2);
-            evenRow.push(isEven ? 0 : 1);
-            oddRow.push(isEven ? 1 : 0);
+const createRepeatingIterator = values => {
+    const maxIndex = values.length - 1;
+    let actualReturningItemIndex = 0;
+
+    return () => {
+        if (actualReturningItemIndex < maxIndex) {
+            return values[actualReturningItemIndex++];
         }
-        backgroundEvenPart.push(evenRow);
-        backgroundOddPart.push(oddRow);
-    }
+        if (actualReturningItemIndex === maxIndex) {
+            actualReturningItemIndex = 0;
 
-    return [backgroundEvenPart, backgroundOddPart];
+            return values[maxIndex];
+        }
+    };
 };
 
-export const BACKGROUND_FIELD = generateBackgroundCells(
-    HORIZONTAL_CELLS_COUNT,
-    VERTICAL_CELLS_COUNT
-);
+export const generateStripeBackgroundCells = partsNames => {
+    const background = [];
+    const getNext = createRepeatingIterator(partsNames);
+
+    for (let i = 0; i < VERTICAL_CELLS_COUNT; i++) {
+        const backgroundRow = [];
+        for (let j = 0; j < HORIZONTAL_CELLS_COUNT; j++) {
+            backgroundRow.push(getNext());
+        }
+        getNext();
+        background.push(backgroundRow);
+    }
+    return background;
+};
+
 export const BLANK_FIELD = generateBlankField(HORIZONTAL_CELLS_COUNT, VERTICAL_CELLS_COUNT);

@@ -2,12 +2,12 @@ import React from 'react';
 
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
-import {toggleGameOn, startNewGame} from '../actions/gameStatus';
-import {checkIsGameOn, checkIsGameOver, checkIsTurnedOff} from '../utils/gameStatusOperations';
+import {toggleGameOn, startNewGame} from '../../../actions/gameState/gameStatus';
+import {checkIsGameOn, checkIsGameOver, checkIsTurnedOff} from '../../../utils/gameStatus';
 import {Icon} from 'antd';
-import {BigSymbols} from './styles/stringStylers';
-import {GameStatistic} from './index';
-import {MenuContainer} from './styles/Menu';
+import {GameStatistic} from '../../index';
+import {MenuContainer} from './style';
+import {BigSymbols} from '../style';
 
 const AntIcon = BigSymbols.withComponent(Icon);
 
@@ -34,11 +34,12 @@ class Menu extends React.Component {
 }
 
 const mapStateToProps = state => {
-    const gameStatus = state.get('gameStatus');
+    const gameState = state.get('gameState');
+    const gameStatus = gameState.get('gameStatus');
     const isGameOn = checkIsGameOn(gameStatus);
     const isGameTurnedOff = checkIsTurnedOff(gameStatus);
     const isGameOver = checkIsGameOver(gameStatus);
-    const gameStatistic = state.get('gameStatistic');
+    const gameStatistic = gameState.get('gameStatistic');
     const gameRecord = gameStatistic.get('gameRecord');
     const gameScore = gameStatistic.get('gameScore');
     return {isGameOn, gameScore, isGameTurnedOff, isGameOver, gameRecord};

@@ -1,24 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
-import {AsideBlock} from '../styles/AsideBlocks';
-import {checkIsGameOn, checkIsTurnedOff} from '../../utils/gameStatusOperations';
-import {CELL_WIDTH_PX, GAME_TIME, HORIZONTAL_CELLS_COUNT} from '../../constants/Game';
+import {checkIsGameOn, checkIsTurnedOff} from '../../utils/gameStatus';
+import {GAME_TIME} from '../../constants/Game';
 import styled from 'styled-components';
-import {endGame} from '../../actions/index';
-import {reduceGameTimeOnSec} from '../../actions/gameTime';
+import {endGame} from '../../actions/gameState/index';
+import {reduceGameTimeOnSec} from '../../actions/gameState/gameTime';
+import {BottomAsideBlock} from './style/index';
 
 const height = 20;
-const width = 100;
-
-const boarWidth = HORIZONTAL_CELLS_COUNT * CELL_WIDTH_PX;
-const leftOfCenteredBar = (boarWidth - width) / 2;
 
 const style = {
     height: `${height}px`,
-    width: `${width}px`,
-    bottom: `-${height + 5}px`,
-    left: `${leftOfCenteredBar}px`
+    width: '100px'
 };
 
 const TimeLine = styled.div`
@@ -51,23 +45,28 @@ class Timer extends React.Component {
         if (!isGameOn && isNewGameOn) this.setUpStepTimer();
         if (isGameOn && !isNewGameOn) this.cleanStepTimer();
     }
+    componentWillUnmount() {
+        this.cleanStepTimer();
+    }
 
     render() {
         const {gameTime, isGameTurnedOff} = this.props;
 
         return (
-            <AsideBlock isVisible={!isGameTurnedOff} style={style}>
+            <BottomAsideBlock isVisible={!isGameTurnedOff} style={style}>
                 <TimeLine style={{width: `${(gameTime / GAME_TIME) * 100}%`}} />
-            </AsideBlock>
+            </BottomAsideBlock>
         );
     }
 }
 
 const mapStateToProps = state => {
-    const gameStatus = state.get('gameStatus');
+    const gameState = state.get('gameState');
+
+    const gameStatus = gameState.get('gameStatus');
     const isGameTurnedOff = checkIsTurnedOff(gameStatus);
     const isGameOn = checkIsGameOn(gameStatus);
-    const gameTime = state.get('gameTime');
+    const gameTime = gameState.get('gameTime');
 
     return {gameTime, isGameTurnedOff, isGameOn};
 };

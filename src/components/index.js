@@ -1,23 +1,25 @@
 import Board from './Boards/GameBoard';
-import Game from './Game';
-import CellsGroup from './FigureScope/CellsGroup';
-import Cell from './FigureScope/Cell';
-import Menu from './GameMenu';
+import Game from './AppModes/Game';
+import Figure from './Figure/Figure';
+import Cell from './Figure/Cell';
+import Menu from './Menu/GameMenu/GameMenu';
 import ScoreTable from './AsidePanels/ScoreBar';
-import NextFiguresBar from './AsidePanels/NextFiguresBar';
-import FigureBox from './FigureScope/FigureExposingBox';
+import NextFiguresBar from './AsidePanels/FiguresBar/FiguresBar';
+import FigureScalingBox from './AsidePanels/FiguresBar/FigureItem';
 import GameTimer from './AsidePanels/GameTimer';
-import GameStatistic from './GameStatistic';
+import GameStatistic from './Menu/GameStatistic';
+import ConstructorBoard from './Boards/ConstructorBoard';
 
 export {
     Board,
     Game,
-    CellsGroup,
+    Figure,
     Cell,
     Menu,
     ScoreTable,
     NextFiguresBar,
-    FigureBox,
+    FigureScalingBox,
     GameTimer,
-    GameStatistic
+    GameStatistic,
+    ConstructorBoard
 };

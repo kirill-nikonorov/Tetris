@@ -1,4 +1,4 @@
-export const drawFigureOnField = (field, figure, y, x) => {
+export const drawFigureOnField = (field, figure, x = 0, y = 0) => {
     if (!figure) return field;
     const resultFigure = field.asMutable();
     figure.forEach((figureRow, figureRowIndex) => {

@@ -18,7 +18,7 @@ app.use(webpackDevMiddleware(compiler, {publicPath: config.output.publicPath}));
 app.use(webpackHotMiddleware(compiler));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../public/figureOperations.js"))
+    res.sendFile(path.resolve(__dirname, "../public/figure.js"))
 });
 
 let port = 3001;

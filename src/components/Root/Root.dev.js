@@ -1,13 +1,12 @@
 import React from 'react';
-import {Game} from '../index';
-import DevTools from '../../containers/DevTools';
+import DevTools from '../devTools/DevTools';
 import styled from 'styled-components';
+import Tetris from '../Tetris';
 
 const RootContainer = styled.div`
     min-height: 100vh;
     background-color: #171734;
-    border: 1px solid #3e9ce8;
-    max-width: 1000px;
+    width: 100%;
     margin: 0 auto;
 
     display: flex;
@@ -19,7 +18,7 @@ class Root extends React.Component {
     render() {
         return (
             <RootContainer>
-                <Game />
+                <Tetris />
                 <DevTools />
             </RootContainer>
         );
