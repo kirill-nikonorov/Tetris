@@ -1,4 +1,4 @@
-import {checkIsFigureCompatibleWithField} from './checkIsFigureCompatibleWithField';
+import {checkIsFigureCompatibleWithField} from './index';
 import {checkIsWithinBottomBound} from '../boundComplianceCheck';
 
 export const findTheLowestCompatibleFigureYCoordinate = (field, figure, x, y = 0) => {

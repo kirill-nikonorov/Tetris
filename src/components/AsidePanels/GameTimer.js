@@ -4,9 +4,9 @@ import {pure} from 'recompose';
 import {checkIsGameOn, checkIsTurnedOff} from '../../utils/gameStatus';
 import {GAME_TIME} from '../../constants/Game';
 import styled from 'styled-components';
-import {endGame} from '../../actions/gameState/index';
+import {endGame} from '../../actions/gameState';
 import {reduceGameTimeOnSec} from '../../actions/gameState/gameTime';
-import {BottomAsideBlock} from './style/index';
+import {BottomAsideBlock} from './style';
 
 const height = 20;
 
@@ -21,7 +21,7 @@ const TimeLine = styled.div`
     background-color: green;
 `;
 
-class Timer extends React.Component {
+class GameTimerView extends React.Component {
     constructor(props) {
         super(props);
         const {isGameOn} = props;
@@ -71,7 +71,7 @@ const mapStateToProps = state => {
     return {gameTime, isGameTurnedOff, isGameOn};
 };
 
-export default connect(
+export const GameTimer = connect(
     mapStateToProps,
     {endGame, reduceGameTimeOnSec}
-)(pure(Timer));
+)(pure(GameTimerView));

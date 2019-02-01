@@ -35,7 +35,7 @@ export const makeFiguresListStep = (nextFiguresList, allFigures) => {
     return [nextFigure, newNextFiguresList];
 };
 
-export const generateFigureBoxSize = (cells) => {
+export const generateFigureBoxSize = cells => {
     const horizontalCellsCount = cells.first().size;
     const verticalCellsCount = cells.size;
 

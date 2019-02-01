@@ -1,20 +1,22 @@
 import React from 'react';
-import {Board, Menu, ScoreTable, GameTimer} from '../index';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
 import {checkIsTurnedOff} from '../../utils/gameStatus';
-import FiguresBar from '../AsidePanels/FiguresBar/FiguresBar';
 import {List} from 'immutable';
-import {AppContainer} from './style';
 
-class Game extends React.Component {
+import {AppContainer} from './style';
+import {GameTimer, ScoreTable, FiguresBar} from '../AsidePanels';
+import {Menu} from '../Menu';
+import {GameBoard} from '../Boards';
+
+class GameView extends React.Component {
     render() {
         const {nextFiguresList, isGameTurnedOff} = this.props;
 
         return (
             <AppContainer>
                 <Menu />
-                <Board />
+                <GameBoard />
                 <FiguresBar isVisible={!isGameTurnedOff} figuresCollection={nextFiguresList} />
                 <ScoreTable />
                 <GameTimer />
@@ -32,4 +34,4 @@ const mapStateToProps = state => {
     return {nextFiguresList, isGameTurnedOff};
 };
 
-export default connect(mapStateToProps)(pure(Game));
+export const Game = connect(mapStateToProps)(pure(GameView));

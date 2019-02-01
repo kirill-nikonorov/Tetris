@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import {pure} from 'recompose';
 import {CELL_HEIGHT_PX, CELL_WIDTH_PX} from '../../constants/Game';
-import {BACKGROUND_STYLES, DEFAULT_FIGURES_STYLES} from '../../constants/Figures';
+import {DEFAULT_FIGURES_STYLES} from '../../constants/Figures';
+import {BACKGROUND_STYLES} from '../../constants/Background';
 import {connect} from 'react-redux';
 import {Map} from 'immutable';
 
@@ -39,7 +40,7 @@ const completeStyle = colorStyle => {
     return style;
 };
 
-class Cell extends React.Component {
+class CellView extends React.Component {
     getAppropriateColorStyle() {
         const {customStyle, shadow, customFiguresStyles, figureName} = this.props;
 
@@ -70,7 +71,7 @@ class Cell extends React.Component {
             finalStyle = completeStyle(colorStyle);
         }
 
-        return <CellContainer x={x} y={y} onClick={onClick} style={finalStyle}/>;
+        return <CellContainer x={x} y={y} onClick={onClick} style={finalStyle} />;
     }
 }
 
@@ -79,4 +80,4 @@ const mapStateToProps = state => {
     return {customFiguresStyles};
 };
 
-export default connect(mapStateToProps)(pure(Cell));
+export const Cell = connect(mapStateToProps)(pure(CellView));

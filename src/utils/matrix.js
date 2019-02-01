@@ -9,7 +9,7 @@ const generateBlankField = (horizontalCellsCount, verticalCellsCount) => {
     return fromJS(field);
 };
 
-const createRepeatingIterator = values => {
+const createRepeatingPseudoIterator = values => {
     const maxIndex = values.length - 1;
     let actualReturningItemIndex = 0;
 
@@ -27,14 +27,13 @@ const createRepeatingIterator = values => {
 
 export const generateStripeBackgroundCells = partsNames => {
     const background = [];
-    const getNext = createRepeatingIterator(partsNames);
+    const getNext = createRepeatingPseudoIterator(partsNames);
 
     for (let i = 0; i < VERTICAL_CELLS_COUNT; i++) {
         const backgroundRow = [];
         for (let j = 0; j < HORIZONTAL_CELLS_COUNT; j++) {
             backgroundRow.push(getNext());
         }
-        getNext();
         background.push(backgroundRow);
     }
     return background;

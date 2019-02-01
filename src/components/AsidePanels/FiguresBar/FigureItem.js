@@ -1,21 +1,22 @@
 import React from 'react';
 
 import {pure} from 'recompose';
-import Figure from '../../Figure/Figure';
-import {Scaller, FigureItemContainer} from './style';
 
-class FigureExposingBox extends React.Component {
+import {Scaller, FigureItemContainer} from './style';
+import {Cells} from '../../Cells/Cells';
+
+class FigureItemView extends React.Component {
     render() {
         const {cells, onClick, isAccented} = this.props;
 
         return (
             <FigureItemContainer onClick={onClick} isAccented={isAccented}>
                 <Scaller cells={cells}>
-                    <Figure cells={cells} />
+                    <Cells cells={cells} />
                 </Scaller>
             </FigureItemContainer>
         );
     }
 }
 
-export default pure(FigureExposingBox);
+export const FigureItem = pure(FigureItemView);

@@ -1,10 +1,10 @@
 import React from 'react';
 import {pure} from 'recompose';
-import {RightAsideBlock} from './style/index';
+import {RightAsideBlock} from './style';
 
 const style = {width: '100px'};
 
-class ColorChanger extends React.Component {
+class ColorChangerView extends React.Component {
     render() {
         const {onColorChange, colorStyle} = this.props;
 
@@ -44,4 +44,4 @@ class ColorChanger extends React.Component {
     }
 }
 
-export default pure(ColorChanger);
+export const ColorChanger = pure(ColorChangerView);

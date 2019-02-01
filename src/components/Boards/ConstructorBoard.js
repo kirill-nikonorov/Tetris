@@ -1,13 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
-import Figure from '../Figure/Figure';
-import {moveFigure, toggleGameOn, togglePause} from '../../actions/gameState/index';
-import {BACKGROUND} from '../../constants/Figures';
+
+import {moveFigure, toggleGameOn, togglePause} from '../../actions/gameState';
+import {BACKGROUND} from '../../constants/Background';
 import {BoardContainer} from './style';
 import {extractFigureDataFromField} from '../../utils/field/extractFigureDataFromField';
+import {Cells} from '../Cells/Cells';
 
-class Board extends React.Component {
+class ConstructorBoardView extends React.Component {
     render() {
         const {field, cellStyle, onBackGroundClick, onFigureClick} = this.props;
 
@@ -15,10 +16,10 @@ class Board extends React.Component {
 
         return (
             <BoardContainer>
-                <Figure cells={BACKGROUND} onClick={onBackGroundClick} />
+                <Cells cells={BACKGROUND} onClick={onBackGroundClick} />
 
                 {figure && (
-                    <Figure
+                    <Cells
                         cells={figure}
                         customCellStyle={cellStyle}
                         x={x}
@@ -32,7 +33,7 @@ class Board extends React.Component {
     }
 }
 
-export default connect(
+export const ConstructorBoard = connect(
     undefined,
     {moveFigure, toggleGameOn, togglePause}
-)(pure(Board));
+)(pure(ConstructorBoardView));

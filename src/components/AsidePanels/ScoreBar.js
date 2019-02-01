@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import styled from 'styled-components';
 import {pure} from 'recompose';
 import {checkIsTurnedOff} from '../../utils/gameStatus';
-import {RightAsideBlock} from './style/index';
+import {RightAsideBlock} from './style';
 
 const Score = styled.div`
     font-size: 25px;
@@ -11,7 +11,7 @@ const Score = styled.div`
 
 const style = {height: '65px', width: '50px'};
 
-class ScoreTable extends React.Component {
+class ScoreTableView extends React.Component {
     render() {
         const {gameScore = 0, isGameTurnedOff} = this.props;
 
@@ -34,4 +34,4 @@ const mapStateToProps = state => {
     return {gameScore, isGameTurnedOff};
 };
 
-export default connect(mapStateToProps)(pure(ScoreTable));
+export const ScoreTable = connect(mapStateToProps)(pure(ScoreTableView));

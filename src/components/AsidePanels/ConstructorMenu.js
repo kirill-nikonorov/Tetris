@@ -2,7 +2,7 @@ import React from 'react';
 import {pure} from 'recompose';
 import styled from 'styled-components';
 import {Button} from 'antd';
-import {BottomAsideBlock} from './style/index';
+import {BottomAsideBlock} from './style';
 
 const style = {
     height: '50px',
@@ -17,7 +17,7 @@ const ButtonContainer = styled.div`
     color: black;
 `;
 
-class ConstructorMenu extends React.Component {
+class ConstructorMenuView extends React.Component {
     render() {
         const {onConfirmButton, onDeleteButton, onCleanButton, editingMode} = this.props;
 
@@ -34,4 +34,4 @@ class ConstructorMenu extends React.Component {
     }
 }
 
-export default pure(ConstructorMenu);
+export const ConstructorMenu = pure(ConstructorMenuView);

@@ -1,16 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
-import {saveFigure, deleteCustomFigure} from '../../actions/customFiguresData/index';
-import {ConstructorBoard} from '../index';
+import {saveFigure, deleteCustomFigure} from '../../actions/customFiguresData';
 import {BLANK_FIELD} from '../../utils/matrix';
 import {fromJS, Map} from 'immutable';
-import ColorChanger from '../AsidePanels/ColorChanger';
-import ConstructorMenu from '../AsidePanels/ConstructorMenu';
-import FiguresBar from '../AsidePanels/FiguresBar/FiguresBar';
+import {ColorChanger, FiguresBar, ConstructorMenu} from '../AsidePanels';
 import {extractFigureDataFromField} from '../../utils/field/extractFigureDataFromField';
 import {AppContainer} from './style';
-import {drawFigureOnField} from '../../utils/field/drawFigureOnField';
+import {drawFigureOnField} from '../../utils/field';
+import {ConstructorBoard} from '../Boards';
 
 const defaultConstructedCellStyle = {
     background: '#d1f26d',
@@ -30,7 +28,7 @@ const createNewDefaultState = () => {
     };
 };
 
-class FigureConstructor extends React.Component {
+class FigureConstructorView extends React.Component {
     constructor(props) {
         super(props);
         this.state = createNewDefaultState();
@@ -149,7 +147,7 @@ const mapStateToProps = state => {
     return {customFigures, customStyles, customFiguresCoordinates};
 };
 
-export default connect(
+export const FigureConstructor = connect(
     mapStateToProps,
     {saveFigure, deleteCustomFigure}
-)(pure(FigureConstructor));
+)(pure(FigureConstructorView));

@@ -1,20 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
-
 import {pure} from 'recompose';
-import Game from './AppModes/Game';
-import {Switch} from 'antd';
-import {gameBackGroundColor, gameFontColor} from './styles/colors';
-import FigureConstructor from './AppModes/FigureCreatingMode';
-
-const ModeSwitcherContainer = styled.div`
-    color: ${gameFontColor};
-    padding: 5px;
-`;
-
-const PaintedAntdSwitcher = styled(Switch)`
-    background-color: ${gameBackGroundColor} !important;
-`;
+import {Game, FigureConstructor} from './AppModes';
+import {ModeSwitcherContainer, PaintedAntdSwitcher} from './style';
 
 const ModeSwitcher = ({onChange}) => {
     return (
@@ -25,12 +12,13 @@ const ModeSwitcher = ({onChange}) => {
     );
 };
 
-class Tetris extends React.Component {
+class TetrisView extends React.Component {
     state = {showGame: true};
 
     handleModeChange = checked => {
         this.setState({showGame: !checked});
     };
+
     render() {
         const {showGame} = this.state;
 
@@ -43,4 +31,4 @@ class Tetris extends React.Component {
     }
 }
 
-export default pure(Tetris);
+export const Tetris = pure(TetrisView);

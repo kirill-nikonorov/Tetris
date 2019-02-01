@@ -4,9 +4,9 @@ import camelCase from 'camelcase';
 import createRepeat from '@avinlab/repeat';
 import {pure} from 'recompose';
 import {DIRECTION, STEP_TIME, KEY_REPEAT_TIME} from '../../constants/Game';
-import Figure from '../Figure/Figure';
-import {moveFigure, toggleGameOn, togglePause} from '../../actions/gameState/index';
-import {BACKGROUND} from '../../constants/Figures';
+import {Cells} from '../Cells/Cells';
+import {moveFigure, toggleGameOn, togglePause} from '../../actions/gameState';
+import {BACKGROUND} from '../../constants/Background';
 import {checkIsGameOn} from '../../utils/gameStatus';
 import {BoardContainer} from './style';
 
@@ -16,7 +16,7 @@ const generateRepeaterName = direction => {
     return camelCase(`${direction}_Movement`);
 };
 
-class GameBoard extends React.Component {
+class GameBoardView extends React.Component {
     constructor(props) {
         super(props);
         const {isGameOn} = props;
@@ -147,22 +147,13 @@ class GameBoard extends React.Component {
 
         return (
             <BoardContainer>
-                <Figure cells={BACKGROUND} />
+                <Cells cells={BACKGROUND} />
 
-                <Figure cells={field} />
+                <Cells cells={field} />
 
-                {currentFigure && (
-                    <Figure
-                        cells={currentFigure}
-                        x={x}
-                        y={shadowY}
-                        shadow={true}
-                    />
-                )}
+                {currentFigure && <Cells cells={currentFigure} x={x} y={shadowY} shadow={true} />}
 
-                {currentFigure && (
-                    <Figure cells={currentFigure} x={x} y={y}  />
-                )}
+                {currentFigure && <Cells cells={currentFigure} x={x} y={y} />}
             </BoardContainer>
         );
     }
@@ -184,7 +175,7 @@ const mapStateToProps = state => {
     return {isGameOn, field, y, x, currentFigure, shadowY};
 };
 
-export default connect(
+export const GameBoard = connect(
     mapStateToProps,
     {moveFigure, toggleGameOn, togglePause}
-)(pure(GameBoard));
+)(pure(GameBoardView));

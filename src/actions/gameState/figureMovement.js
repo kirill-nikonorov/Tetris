@@ -11,7 +11,7 @@ import {
     checkIsWithinAllBounds
 } from '../../utils/boundComplianceCheck';
 import {checkIsGameOn} from '../../utils/gameStatus';
-import {checkIsFigureCompatibleWithField} from '../../utils/field/checkIsFigureCompatibleWithField';
+import {checkIsFigureCompatibleWithField} from '../../utils/field';
 import {findTheLowestCompatibleFigureYCoordinate} from '../../utils/field/findTheLowestCompatibleFigureYCoordinate';
 
 export const moveFigure = direction => (dispatch, getState) => {
@@ -159,13 +159,15 @@ export const moveFigure = direction => (dispatch, getState) => {
     if (newState) dispatch(updateGameState(newState));
 };
 
-const createNextFigurePeriodState = (nextFiguresList,
-                                     field,
-                                     figure,
-                                     x,
-                                     y,
-                                     gameStatistic,
-                                     customFigures) => {
+const createNextFigurePeriodState = (
+    nextFiguresList,
+    field,
+    figure,
+    x,
+    y,
+    gameStatistic,
+    customFigures
+) => {
     const [newField, cleanedRowsCount] = cleanFieldFromFilledRows(
         drawFigureOnField(field, figure, x, y)
     );

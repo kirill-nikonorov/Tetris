@@ -8,4 +8,3 @@ export const checkIsGameOnPause = status => status === GAME_IS_ON_PAUSE;
 export const checkIsGameOver = status => status === GAME_IS_OVER;
 
 export const checkIsGameAlive = status => checkIsGameOn(status) || checkIsGameOnPause(status);
-

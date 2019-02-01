@@ -2,16 +2,15 @@ import React from 'react';
 
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
-import {toggleGameOn, startNewGame} from '../../../actions/gameState/gameStatus';
-import {checkIsGameOn, checkIsGameOver, checkIsTurnedOff} from '../../../utils/gameStatus';
+import {toggleGameOn, startNewGame} from '../../actions/gameState';
+import {checkIsGameOn, checkIsGameOver, checkIsTurnedOff} from '../../utils/gameStatus';
 import {Icon} from 'antd';
-import {GameStatistic} from '../../index';
-import {MenuContainer} from './style';
-import {BigSymbols} from '../style';
+import {BigSymbols, MenuContainer} from './style';
+import {GameOverStatistic} from './GameStatistic';
 
 const AntIcon = BigSymbols.withComponent(Icon);
 
-class Menu extends React.Component {
+class MenuView extends React.Component {
     render() {
         const {
             gameRecord,
@@ -25,7 +24,7 @@ class Menu extends React.Component {
 
         return (
             <MenuContainer isVisible={!isGameOn}>
-                {isGameOver && <GameStatistic gameRecord={gameRecord} gameScore={gameScore} />}
+                {isGameOver && <GameOverStatistic gameRecord={gameRecord} gameScore={gameScore} />}
                 {!isGameTurnedOff && <AntIcon type="redo" onClick={() => startNewGame()} />}
                 {!isGameOver && <AntIcon type="play-circle" onClick={() => toggleGameOn()} />}
             </MenuContainer>
@@ -44,7 +43,7 @@ const mapStateToProps = state => {
     const gameScore = gameStatistic.get('gameScore');
     return {isGameOn, gameScore, isGameTurnedOff, isGameOver, gameRecord};
 };
-export default connect(
+export const Menu = connect(
     mapStateToProps,
     {toggleGameOn, startNewGame}
-)(pure(Menu));
+)(pure(MenuView));

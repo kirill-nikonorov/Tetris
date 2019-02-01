@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import {pure} from 'recompose';
-import FigureItem from './FigureItem';
 import {LeftBasedBarBlock} from './style';
+import {FigureItem} from './FigureItem';
 
 const CentringFlex = styled.div`
     height: 100%;
@@ -12,7 +12,7 @@ const CentringFlex = styled.div`
     align-items: center;
 `;
 
-class FiguresBar extends React.Component {
+class FiguresBarView extends React.Component {
     render() {
         const {figuresCollection, isVisible, onFigureClick, accentedKey} = this.props;
 
@@ -38,4 +38,4 @@ class FiguresBar extends React.Component {
     }
 }
 
-export default pure(FiguresBar);
+export const FiguresBar = pure(FiguresBarView);

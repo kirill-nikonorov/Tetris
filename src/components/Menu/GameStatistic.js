@@ -2,7 +2,7 @@ import {pure} from 'recompose';
 import React from 'react';
 import {BigSymbols, TextCentralizer} from './style';
 
-const GameOverStatistic = props => {
+const GameOverStatisticView = props => {
     const {gameRecord = 0, gameScore = 0} = props;
     const difference = gameRecord - gameScore;
 
@@ -25,4 +25,4 @@ const GameOverStatistic = props => {
     );
 };
 
-export default pure(GameOverStatistic);
+export const GameOverStatistic = pure(GameOverStatisticView);

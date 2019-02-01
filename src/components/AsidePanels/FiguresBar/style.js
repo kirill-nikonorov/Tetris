@@ -38,8 +38,8 @@ export const FigureItemContainer = styled.div`
     height: ${itemHeight}px;
     width: ${itemWidth}px;
     margin: ${itemVerticalMargin}px 0;
-    box-shadow: ${({isAccented}) => isAccented && '0 0 1px 2px white' };
-    cursor: ${({onClick}) => onClick ? 'pointer' : 'default' };
+    box-shadow: ${({isAccented}) => isAccented && '0 0 1px 2px white'};
+    cursor: ${({onClick}) => (onClick ? 'pointer' : 'default')};
 `;
 
 export const Scaller = styled.div.attrs({

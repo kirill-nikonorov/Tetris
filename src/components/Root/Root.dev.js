@@ -1,7 +1,7 @@
 import React from 'react';
 import DevTools from '../devTools/DevTools';
 import styled from 'styled-components';
-import Tetris from '../Tetris';
+import {Tetris} from '../index';
 
 const RootContainer = styled.div`
     min-height: 100vh;
